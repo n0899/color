@@ -1,17 +1,75 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+class Color extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            text: '',
+            step: 1,
+            red: 'red show',
+            yellow: 'yellow hide',
+            green: 'green hide'
+        };
+    }
+    componentDidMount() {
+        this.timer = setInterval(
+            () => this.changeStep(),
+            4000
+        );
+    }
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+    changeStep(){
+        let step = this.state.step;
+        if(step > 3){
+            step = 1;
+        }else{
+            step += 1;
+        }
+        this.setState({step: step});
+        if(step === 1){
+            this.setState({
+                red: 'red show',
+                yellow: 'yellow hide',
+                green: 'green hide'
+            });
+        }else if (step === 2){
+            this.setState({
+                red: 'red show',
+                yellow: 'yellow show',
+                green: 'green hide'
+            });
+        } else if (step === 3){
+            this.setState({
+                red: 'red hide',
+                yellow: 'yellow hide',
+                green: 'green show'
+            });
+        }else if (step === 4){
+            this.setState({
+                red: 'red hide',
+                yellow: 'yellow show',
+                green: 'green hide'
+            });
+        }
+    }
+    render(){
+        return(
+            <div className="color">
+                <div className={this.state.red}> </div>
+                <div className={this.state.yellow}> </div>
+                <div className={this.state.green}> </div>
+            </div>
+        );
+    }
+}
+
+// ========================================
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Color />,
+    document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
